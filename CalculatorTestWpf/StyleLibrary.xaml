@@ -1,0 +1,104 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <!--Цвет фона границы под TextBlock-->
+    <SolidColorBrush x:Key="BorderSolidColorBackground" Color="LightYellow"></SolidColorBrush>
+    <SolidColorBrush x:Key="BorderSolidColorBorderBrush" Color="SteelBlue"></SolidColorBrush>
+
+    <Style x:Key="borderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BorderSolidColorBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderSolidColorBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+
+    <!--Цвет фона кнопки-->
+    <LinearGradientBrush x:Key="LinearGradientBrushBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFE09A52" Offset="0" />
+        <GradientStop Color="#FF4CC3B4" Offset="0.5" />
+        <GradientStop Color="#FF8852B8" Offset="1" />
+    </LinearGradientBrush>
+
+    <!--Цвет внешней границы кнопки-->
+    <SolidColorBrush x:Key="SolidColorBrushBorderBrush" Color="#FF0B2C63"></SolidColorBrush>
+    <SolidColorBrush x:Key="IsMouseOverBackground" Color="Turquoise" Opacity="0.75"></SolidColorBrush>
+    <SolidColorBrush x:Key="IsMouseOverBorderBrush" Color="Yellow" Opacity="0.75"></SolidColorBrush>
+    <SolidColorBrush x:Key="IsPressedBackground" Color="Turquoise" Opacity="0.75"></SolidColorBrush>
+    <SolidColorBrush x:Key="IsPressedBorderBrush" Color="Yellow" Opacity="0.75"></SolidColorBrush>
+
+    <Storyboard x:Key="playStoryboard">
+        <DoubleAnimation From="60" To="40" Duration="0:0:0.25" RepeatBehavior="1x" AutoReverse="True" Storyboard.TargetName="rectangleButton" Storyboard.TargetProperty="(Rectangle.Height)"/>
+        <DoubleAnimation From="80" To="50" Duration="0:0:0.25" RepeatBehavior="1x" AutoReverse="True" Storyboard.TargetName="rectangleButton" Storyboard.TargetProperty="(Rectangle.Width)"/>
+    </Storyboard>
+
+    <Style x:Key="buttonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource LinearGradientBrushBackground}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource SolidColorBrushBorderBrush}"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="Margin" Value="0.5"/>
+        <Setter Property="Command" Value="{Binding ButtonPressCommand}"/>
+        <Setter Property="CommandParameter" Value="{Binding Content, RelativeSource={RelativeSource Self}}"/>
+
+        <!--Переопределить шаблон кнопки, чтобы у неё были индивидуальные физические размеры-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+
+                        <Rectangle x:Name="rectangleButton" 
+                                    Width="80" Height="60" 
+                                    RadiusX="5" RadiusY="5" 
+                                    StrokeThickness="1"
+                                    Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                        <ContentPresenter x:Name="contentPresenter" 
+                                          Focusable="False" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          Margin="{TemplateBinding Padding}" 
+                                          RecognizesAccessKey="True" 
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                    <!--Установить событие триггера при наведении и при нажатии на кнопку-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Fill" TargetName="rectangleButton" Value="{StaticResource IsMouseOverBackground}"/>
+                            <Setter Property="Stroke" TargetName="rectangleButton" Value="{StaticResource IsMouseOverBorderBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Fill" TargetName="rectangleButton" Value="{StaticResource IsPressedBackground}"/>
+                            <Setter Property="Stroke" TargetName="rectangleButton" Value="{StaticResource IsPressedBorderBrush}"/>
+                        </Trigger>
+
+                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Name="playStoryboard" Storyboard="{StaticResource playStoryboard}"/>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Стиль для TextBlock-->
+    <Style x:Key="txtStyle1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="70"/>
+        <Setter Property="FlowDirection" Value="LeftToRight"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="txtStyle2" TargetType="TextBlock" BasedOn="{StaticResource txtStyle1}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="2"/>
+    </Style>
+</ResourceDictionary>

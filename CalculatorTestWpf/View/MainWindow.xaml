@@ -1,0 +1,70 @@
+﻿<Window x:Class="CalculatorTestWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalculatorTestWpf"
+        xmlns:c="clr-namespace:CalculatorTestWpf.Commands"
+        xmlns:vm="clr-namespace:CalculatorTestWpf.ViewModel"
+        mc:Ignorable="d"
+        Title="Калькулятор" 
+        MinHeight="550" 
+        MinWidth="400" 
+        WindowStyle="ThreeDBorderWindow"
+        Closing="Window_Closing">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid x:Name="myCalculator" Background="#FFF3D0D0" OpacityMask="#FFE1E2D7">
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="45"/>
+        </Grid.Effect>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock  Name="displayBox" 
+                    Text="{Binding CurrentExpression.Content}"
+                    Style="{StaticResource txtStyle2}"
+                    TextAlignment="Right"/>
+        
+        <Border Style="{StaticResource borderStyle}" 
+                VerticalAlignment="Top"
+                Grid.Row="1">
+            <TextBlock Name="expressionBox" 
+                       Text="{Binding CurrentExpression.Result}"  
+                       Style="{StaticResource txtStyle1}"
+                       TextAlignment="Right"/>
+        </Border>
+        <UniformGrid Rows="5" Margin="5" Columns="4" Grid.Row="2">
+            <Button Name="Bracket1" Content="(" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="Bracket2" Content=")" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="CLear" Content="C" Style="{StaticResource buttonStyle}" Command="{Binding ClearPressCommand}"/>
+            <Button Name="Backspace" Content="←" Style="{StaticResource buttonStyle}" Command="{Binding DeletePressCommand}"/>
+
+            <Button Name="Divide" Content="÷" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn7" Content="7" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn8" Content="8" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn9" Content="9" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            
+            <Button Name="Multiply" Content="×" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn4" Content="4" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn5" Content="5" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn6" Content="6" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            
+            <Button Name="Subtract" Content="-" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn1" Content="1" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn2" Content="2" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn3" Content="3" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            
+            <Button Name="Add" Content="+" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="btn0" Content="0" Style="{StaticResource buttonStyle}" Command="{Binding ButtonPressCommand}"/>
+            <Button Name="Enter" Content="=" Style="{StaticResource buttonStyle}" Command="{Binding EqualPressCommand}"/>
+        </UniformGrid>
+    </Grid>
+</Window>
